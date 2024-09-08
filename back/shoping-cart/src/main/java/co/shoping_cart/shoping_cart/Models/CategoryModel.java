@@ -9,6 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
+// Model for the category of the product
+// its used for the response of the categories endpoint
 public class CategoryModel {
     private int id;
     private Category name;

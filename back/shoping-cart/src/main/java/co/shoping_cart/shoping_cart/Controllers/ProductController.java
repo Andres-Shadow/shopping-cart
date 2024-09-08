@@ -24,12 +24,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
+    // Service that implements the ProductService interface
+    // and contains the methods for the products
     private final ProductServiceImpl productService;
 
+    // Constructor for the ProductController class that allows to instantiate serive
+    // implementations
     public ProductController(ProductServiceImpl productService) {
         this.productService = productService;
     }
 
+    // Method that gets all the products
+    // Parameters:
+    // int page-> the page number to get
+    // int pageSize-> the number of products per page
+    // Returns:
+    // ResponseEntity<ApiResponse<List<Product>>>-> a response entity with the list
+    // of products
     @GetMapping
     public ResponseEntity<ApiResponse<List<Product>>> obtainAllProducts(
             @RequestParam(defaultValue = "1") int page,
@@ -45,7 +57,11 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse<>(productos.size() + "- Records listed correctly", productos, 200));
     }
 
-    // Crear un nuevo producto
+    // Method that creates a new product
+    // Parameters:
+    // ProductDTO productDTO-> the product to be created
+    // Returns:
+    // ResponseEntity<ApiResponse<String>>-> a response entity with a message
     @PostMapping
     public ResponseEntity<ApiResponse<String>> createProduct(@Valid @RequestBody ProductDTO productDTO) {
         Product product = new Product();
@@ -57,7 +73,11 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse<>(result, null, 200));
     }
 
-    // Obtener producto por ID
+    // Method that gets a product by its id
+    // Parameters:
+    // int id-> the id of the product
+    // Returns:
+    // ResponseEntity<ApiResponse<Product>>-> a response entity with the product
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Product>> obtainProductById(@PathVariable int id) {
         Product product = productService.getProductById(id);
@@ -68,6 +88,12 @@ public class ProductController {
         }
     }
 
+    // Method that gets a product by its name
+    // Parameters:
+    // String name-> the name of the product
+    // Returns:
+    // ResponseEntity<ApiResponse<List<Product>>>-> a response entity with the
+    // product
     @GetMapping("/filter/{name}")
     public ResponseEntity<ApiResponse<List<Product>>> obtainProductByName(@PathVariable String name) {
         Product product = productService.getProductByName(name);
@@ -80,6 +106,12 @@ public class ProductController {
         }
     }
 
+    // Method that updates a product
+    // Parameters:
+    // int id-> the id of the product
+    // ProductDTO productDTO-> the product with the new information
+    // Returns:
+    // ResponseEntity<ApiResponse<String>>-> a response entity with a message
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> updateProduct(@PathVariable int id,
             @RequestBody ProductDTO productDTO) {
@@ -99,7 +131,11 @@ public class ProductController {
 
     }
 
-    // Eliminar producto por ID
+    // Method that deletes a product
+    // Parameters:
+    // int id-> the id of the product
+    // Returns:
+    // ResponseEntity<ApiResponse<Boolean>>-> a response entity with a boolean
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Boolean>> deleteProduct(@PathVariable int id) {
         Boolean deleted = productService.deleteProduct(id);
@@ -110,13 +146,22 @@ public class ProductController {
         }
     }
 
-    // Obtener productos por categoría
+    // Method that gets the products by category
+    // Parameters:
+    // String category-> the category of the products
+    // Returns:
+    // ResponseEntity<ApiResponse<List<Product>>>-> a response entity with the list
+    // of products
     @GetMapping("/category/{category}")
     public ResponseEntity<ApiResponse<List<Product>>> obtainProductByCategory(@PathVariable String category) {
         List<Product> products = productService.getProductsByCategory(category);
         return ResponseEntity.ok(new ApiResponse<>("Productos por categoría obtenidos exitosamente", products, 200));
     }
 
+    // Method that gets all the categories
+    // Returns:
+    // ResponseEntity<ApiResponse<List<CategoryModel>>>-> a response entity with the
+    // list of categories
     @GetMapping("/category")
     public ResponseEntity<ApiResponse<List<CategoryModel>>> getMethodName() {
         List<CategoryModel> categories = productService.getAllCategories();

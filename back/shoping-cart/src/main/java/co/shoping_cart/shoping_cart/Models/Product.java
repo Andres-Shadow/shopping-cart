@@ -9,6 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
+// Model of the product entity, it has an id, a name, a price, an amount and a
+// category
+// It is used for the response of the products endpoint
 public class Product {
     private int id;
     private String name;

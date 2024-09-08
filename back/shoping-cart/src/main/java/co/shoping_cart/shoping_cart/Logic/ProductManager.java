@@ -14,135 +14,182 @@ import java.util.stream.IntStream;
 
 public class ProductManager {
 
+    // Constant that contains the path to the json file used as data source
     private static final String JSON_FILE_PATH = "shoping-cart/src/main/resources/products.json";
 
-    public static String addProductToJson(Product producto) {
+    // Method that adds a product to the json file
+    // Parameters:
+    // Product producto-> the product to be added
+    // Returns:
+    // String-> a message that indicates if the product was added successfully or
+    // not
+    public static String addProductToJson(Product product) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         try {
             File file = new File(JSON_FILE_PATH);
-            List<Product> productos = file.exists() && file.length() > 0
+            List<Product> products = file.exists() && file.length() > 0
                     ? mapper.readValue(file,
                             mapper.getTypeFactory().constructCollectionType(ArrayList.class, Product.class))
                     : new ArrayList<>();
 
-            // Verificar si el producto ya existe
-            boolean exists = productos.stream().anyMatch(p -> p.getName().equals(producto.getName()));
+            // validate if the product already exists
+            boolean exists = products.stream().anyMatch(p -> p.getName().equals(product.getName()));
             if (exists) {
-                return "El producto ya existe en el archivo JSON.";
+                return "Product already exists.";
             }
 
-            // Generar un nuevo ID basado en el mayor existente
-            int newId = productos.stream().mapToInt(Product::getId).max().orElse(0) + 1;
-            producto.setId(newId);
+            // Get the max id and add 1 to create a new id
+            int newId = products.stream().mapToInt(Product::getId).max().orElse(0) + 1;
+            product.setId(newId);
 
-            productos.add(producto);
-            mapper.writeValue(file, productos);
+            products.add(product);
+            mapper.writeValue(file, products);
 
-            return "Producto agregado exitosamente al archivo JSON.";
+            return "Product added successfully.";
         } catch (IOException e) {
             e.printStackTrace();
-            return "Error al agregar el producto al archivo JSON: " + e.getMessage();
+            return "Error trying to add the product" + e.getMessage();
         }
     }
 
+    // Method that gets a list of products from the json file
+    // Parameters:
+    // int page-> the page number to get
+    // int pageSize-> the number of products per page
+    // Returns:
+    // List<Product>-> a list of products
     public static List<Product> getProductsFromJson(int page, int pageSize) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             File file = new File(JSON_FILE_PATH);
             if (file.exists() && file.length() > 0) {
-                List<Product> productos = mapper.readValue(file,
+                List<Product> products = mapper.readValue(file,
                         mapper.getTypeFactory().constructCollectionType(ArrayList.class, Product.class));
 
                 int fromIndex = (page - 1) * pageSize;
-                int toIndex = Math.min(fromIndex + pageSize, productos.size());
+                int toIndex = Math.min(fromIndex + pageSize, products.size());
 
-                // Validar que el índice inicial no sea mayor al tamaño de la lista
-                if (fromIndex > productos.size()) {
+                // Validate if the page is out of bounds
+                if (fromIndex > products.size()) {
                     return new ArrayList<>();
                 }
 
-                return productos.subList(fromIndex, toIndex);
+                return products.subList(fromIndex, toIndex);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Error al obtener los productos del archivo JSON: " + e.getMessage());
+            System.err.println("Error trying to get the products from the JSON: " + e.getMessage());
         }
         return new ArrayList<>();
     }
 
+    // Method that gets the entire list of products from the json file
+    // Returns:
+    // List<Product>-> a list of products
     public static List<Product> getProductsFromJson() {
         return getProductsFromJson(1, Integer.MAX_VALUE);
     }
 
+    // Method that gets a product by its id
+    // Parameters:
+    // int id-> the id of the product
+    // Returns:
+    // Product-> the product with the given id
     public static Product getProductById(int id) {
         return getProductsFromJson().stream()
-                .filter(producto -> producto.getId() == id)
+                .filter(product -> product.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
+    // Method that gets a product by its name
+    // Parameters:
+    // String name-> the name of the product
+    // Returns:
+    // Product-> the product with the given name
     public static Product getProductByName(String name) {
         return getProductsFromJson().stream()
-                .filter(producto -> producto.getName().equalsIgnoreCase(name))
+                .filter(product -> product.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElse(null);
     }
 
+    // Method that gets a list of products by category
+    // Parameters:
+    // String category-> the category of the products
+    // Returns:
+    // List<Product>-> a list of products with the given category
     public static List<Product> getProductsByCategory(String category) {
         return getProductsFromJson().stream()
-                .filter(producto -> producto.getCategory().name().equalsIgnoreCase(category))
+                .filter(product -> product.getCategory().name().equalsIgnoreCase(category))
                 .toList();
     }
 
+    // Method that deletes a product from the json file
+    // Parameters:
+    // int id-> the id of the product to be deleted
+    // Returns:
+    // Boolean-> a boolean that indicates if the product was deleted successfully or
+    // not
     public static Boolean deleteProduct(int id) {
-        List<Product> productos = getProductsFromJson();
-        boolean removed = productos.removeIf(producto -> producto.getId() == id);
+        List<Product> products = getProductsFromJson();
+        boolean removed = products.removeIf(product -> product.getId() == id);
 
         if (removed) {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             try {
-                mapper.writeValue(new File(JSON_FILE_PATH), productos);
+                mapper.writeValue(new File(JSON_FILE_PATH), products);
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
-                System.err.println("Error al eliminar el producto del archivo JSON: " + e.getMessage());
+                System.err.println("Error while deleting the product: " + e.getMessage());
             }
         }
         return false;
     }
 
+    // Method that updates a product in the json file
+    // Parameters:
+    // int productId-> the id of the product to be updated
+    // Product product-> the new product data
+    // Returns:
+    // Boolean-> a boolean that indicates if the product was updated successfully or
+    // not
     public static Boolean updateProduct(int productId, Product product) {
-        List<Product> productos = getProductsFromJson();
-        int index = productos.indexOf(productos.stream()
+        List<Product> products = getProductsFromJson();
+        int index = products.indexOf(products.stream()
                 .filter(p -> p.getId() == productId)
                 .findFirst()
                 .orElse(null));
 
         if (index != -1) {
-            productos.set(index, product);
+            products.set(index, product);
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             try {
-                mapper.writeValue(new File(JSON_FILE_PATH), productos);
+                mapper.writeValue(new File(JSON_FILE_PATH), products);
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
-                System.err.println("Error al actualizar el producto del archivo JSON: " + e.getMessage());
+                System.err.println("Error while updating a product from the json " + e.getMessage());
             }
         }
         return false;
 
     }
 
+    // Method that gets all the categories of the products
+    // Returns:
+    // List<CategoryModel>-> a list of categories
     public static List<CategoryModel> getCategories() {
-        // Obtiene todos los valores posibles del enum Category
+        // Obtain all the enum values
         Category[] enumCategories = Category.values();
 
-        // Mapea los valores del enum a una lista de CategoryModel asignando un id a
-        // cada uno utilizando un Stream
+        // Create a list of categories with their respective id
+        // using an stream
         List<CategoryModel> categoriesWithId = IntStream.range(0, enumCategories.length)
                 .mapToObj(i -> new CategoryModel(i, enumCategories[i]))
                 .collect(Collectors.toList());

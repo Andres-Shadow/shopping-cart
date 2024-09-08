@@ -9,6 +9,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+
+// DTO for the product entity, it has a name, a price, a category and an amount
+// it is used for the request of the products endpoint, receives the data from
+// the user
+// and then is mapped to the real entity thats used
 public class ProductDTO {
     @NotBlank
     private String name;
