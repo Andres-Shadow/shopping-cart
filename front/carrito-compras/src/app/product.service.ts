@@ -13,8 +13,9 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<ProductResponse> {
-    return this.http.get<ProductResponse>(this.apiUrl);
+  getProducts(page: number, pageSize: number): Observable<ProductResponse> {
+    let url = `${this.apiUrl}?page=${page}&pageSize=${pageSize}`;
+    return this.http.get<ProductResponse>(url);
   }
 
   addNewProduct(product: any): Observable<ProductResponse> {
@@ -29,6 +30,9 @@ export class ProductService {
     return this.http.get<ProductResponse>(`${this.apiUrl}/category/${category}`);
   }
 
+  updateProduct(product: any): Observable<ProductResponse> {
+    return this.http.put<ProductResponse>(`${this.apiUrl}/${product.id}`, product);
+  }
   obtainProductByName(name: string): Observable<ProductResponse> {
     return this.http.get<ProductResponse>(`${this.apiUrl}/filter/${name}`);
   }

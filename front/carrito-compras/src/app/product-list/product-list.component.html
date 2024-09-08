@@ -23,10 +23,6 @@
         [(ngModel)]="selectedCategory"
         (change)="filterByCategory()"
       >
-        <!-- <option value="">All Categories</option>
-        <option *ngFor="let category of categories" [value]="category">
-          {{ category }}
-        </option> -->
         <option value="">All Categories</option>
         @for (category of categories; track category.id) {
         <option value="{{ category.name }}">{{ category.name }}</option>
@@ -66,11 +62,48 @@
             <button (click)="deleteProduct(product.id)" class="delete-button">
               Delete
             </button>
-            <button class="update-button">Update</button>
+            <button (click)="editProduct(product)" class="update-button">
+              Update
+            </button>
           </td>
         </tr>
         }
       </tbody>
     </table>
+
+    <div class="pagination-container">
+      <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+
+    <!-- Ventana emergente de actualización -->
+    @if (isEditVisible) {
+    <div class="update-popup">
+      <h3>Actualizar Producto</h3>
+      <input
+        type="text"
+        placeholder="Name"
+        [(ngModel)]="editProductData.name"
+      />
+      <input
+        type="number"
+        placeholder="Price"
+        [(ngModel)]="editProductData.price"
+      />
+      <input
+        type="number"
+        placeholder="Amount"
+        [(ngModel)]="editProductData.amount"
+      />
+      <input
+        type="text"
+        placeholder="Category"
+        [(ngModel)]="editProductData.category"
+      />
+      <button (click)="updateProduct()">Guardar cambios</button>
+      <button (click)="closeEditPopup()">Cancelar</button>
+    </div>
+    }
   </div>
 </div>

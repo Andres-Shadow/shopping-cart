@@ -30,8 +30,8 @@
   "category" : "cat1"
 }, {
   "id" : 8,
-  "name" : "Producto 7",
+  "name" : "Producto 8",
   "price" : 200.0,
-  "amount" : 5,
+  "amount" : 0,
   "category" : "cat2"
 } ]
