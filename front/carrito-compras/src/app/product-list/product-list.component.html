@@ -1,19 +1,26 @@
-<div>
-  <div class="table-container">
-    <div class="form-container">
-      <input type="text" placeholder="Name" [(ngModel)]="newProduct.name" />
-      <input type="number" placeholder="Price" [(ngModel)]="newProduct.price" />
-      <input
-        type="number"
-        placeholder="Amount"
-        [(ngModel)]="newProduct.amount"
-      />
+<div class="table-container">
+  <!-- Formulario para agregar productos -->
+  <div class="form-container">
+    <input type="text" placeholder="Name" [(ngModel)]="newProduct.name" />
+    <input type="number" placeholder="Price" [(ngModel)]="newProduct.price" />
+    <input type="number" placeholder="Amount" [(ngModel)]="newProduct.amount" />
+    <input
+      type="text"
+      placeholder="Category"
+      [(ngModel)]="newProduct.category"
+    />
+    <button (click)="saveProduct()">Agregar</button>
+  </div>
+
+  <!-- Contenedor de búsqueda y filtro -->
+  <div class="search-filter-container">
+    <div class="search-container">
       <input
         type="text"
-        placeholder="Category"
-        [(ngModel)]="newProduct.category"
+        placeholder="Buscar producto por nombre"
+        [(ngModel)]="searchQuery"
       />
-      <button (click)="saveProduct()">Agregar</button>
+      <button (click)="searchProductByName()">Buscar</button>
     </div>
 
     <div class="filter-container">
@@ -29,81 +36,90 @@
         }
       </select>
     </div>
-
-    <div class="search-container">
-      <input
-        type="text"
-        placeholder="Buscar producto por nombre"
-        [(ngModel)]="searchQuery"
-      />
-      <button (click)="searchProductByName()">Buscar</button>
-    </div>
-
-    <table class="product-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Amount</th>
-          <th>Category</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for( product of lProducts; track product.id){
-        <tr>
-          <td>{{ product.name }}</td>
-          <td>{{ product.price }}</td>
-          <td>{{ product.amount }}</td>
-          <td>{{ product.category }}</td>
-
-          <td>
-            <!-- Botones de actualizar y eliminar -->
-            <button (click)="deleteProduct(product.id)" class="delete-button">
-              Delete
-            </button>
-            <button (click)="editProduct(product)" class="update-button">
-              Update
-            </button>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
-
-    <div class="pagination-container">
-      <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-    </div>
-
-    <!-- Ventana emergente de actualización -->
-    @if (isEditVisible) {
-    <div class="update-popup">
-      <h3>Actualizar Producto</h3>
-      <input
-        type="text"
-        placeholder="Name"
-        [(ngModel)]="editProductData.name"
-      />
-      <input
-        type="number"
-        placeholder="Price"
-        [(ngModel)]="editProductData.price"
-      />
-      <input
-        type="number"
-        placeholder="Amount"
-        [(ngModel)]="editProductData.amount"
-      />
-      <input
-        type="text"
-        placeholder="Category"
-        [(ngModel)]="editProductData.category"
-      />
-      <button (click)="updateProduct()">Guardar cambios</button>
-      <button (click)="closeEditPopup()">Cancelar</button>
-    </div>
-    }
   </div>
+
+  <!-- Tabla de productos -->
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for( product of lProducts; track product.id){
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.amount }}</td>
+        <td>{{ product.category }}</td>
+
+        <td>
+          <!-- Botones de actualizar y eliminar -->
+          <button (click)="deleteProduct(product.id)" class="delete-button">
+            Delete
+          </button>
+          <button (click)="editProduct(product)" class="update-button">
+            Update
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <!-- Paginación -->
+  <div class="pagination-container">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">
+      Previous
+    </button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Next
+    </button>
+  </div>
+
+  <!-- Ventana emergente de actualización -->
+  @if (isEditVisible) {
+  <div class="update-popup">
+    <h3>Actualizar Producto</h3>
+    <div class="form-container-update">
+      <div class="input-group">
+        <input
+          type="text"
+          placeholder="Name"
+          [(ngModel)]="editProductData.name"
+        />
+        <input
+          type="number"
+          placeholder="Price"
+          [(ngModel)]="editProductData.price"
+        />
+      </div>
+      <div class="input-group">
+        <input
+          type="number"
+          placeholder="Amount"
+          [(ngModel)]="editProductData.amount"
+        />
+        <input
+          type="text"
+          placeholder="Category"
+          [(ngModel)]="editProductData.category"
+        />
+      </div>
+      <div class="button-group">
+        <button (click)="updateProduct()" class="save-button">
+          Guardar cambios
+        </button>
+        <button (click)="closeEditPopup()" class="cancel-button">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+  }
 </div>

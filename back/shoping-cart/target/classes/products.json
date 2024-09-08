@@ -1,37 +1,37 @@
 [ {
   "id" : 2,
-  "name" : "Producto 12",
-  "price" : 200.0,
-  "amount" : 0,
-  "category" : "cat2"
+  "name" : "Producto a",
+  "price" : 250.0,
+  "amount" : 6,
+  "category" : "FOOD"
 }, {
   "id" : 3,
   "name" : "producto 3",
   "price" : 0.0,
-  "amount" : 0,
-  "category" : "cat1"
+  "amount" : 7,
+  "category" : "ELECTRONICS"
 }, {
   "id" : 4,
   "name" : "producto 4",
   "price" : 0.0,
   "amount" : 0,
-  "category" : "cat1"
+  "category" : "ELECTRONICS"
 }, {
   "id" : 5,
   "name" : "Producto 5",
   "price" : 200.0,
   "amount" : 5,
-  "category" : "cat1"
+  "category" : "ELECTRONICS"
 }, {
   "id" : 7,
   "name" : "Producto 6",
   "price" : 200.0,
-  "amount" : 5,
-  "category" : "cat1"
+  "amount" : 0,
+  "category" : "ELECTRONICS"
 }, {
   "id" : 8,
   "name" : "Producto 8",
   "price" : 200.0,
   "amount" : 0,
-  "category" : "cat2"
+  "category" : "ELECTRONICS"
 } ]

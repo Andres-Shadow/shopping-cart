@@ -1,5 +1,7 @@
 package co.shoping_cart.shoping_cart.Logic;
 
+import co.shoping_cart.shoping_cart.Models.Category;
+import co.shoping_cart.shoping_cart.Models.CategoryModel;
 import co.shoping_cart.shoping_cart.Models.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -7,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ProductManager {
 
@@ -88,7 +92,7 @@ public class ProductManager {
 
     public static List<Product> getProductsByCategory(String category) {
         return getProductsFromJson().stream()
-                .filter(producto -> producto.getCategory().equals(category))
+                .filter(producto -> producto.getCategory().name().equalsIgnoreCase(category))
                 .toList();
     }
 
@@ -131,5 +135,18 @@ public class ProductManager {
         }
         return false;
 
+    }
+
+    public static List<CategoryModel> getCategories() {
+        // Obtiene todos los valores posibles del enum Category
+        Category[] enumCategories = Category.values();
+
+        // Mapea los valores del enum a una lista de CategoryModel asignando un id a
+        // cada uno utilizando un Stream
+        List<CategoryModel> categoriesWithId = IntStream.range(0, enumCategories.length)
+                .mapToObj(i -> new CategoryModel(i, enumCategories[i]))
+                .collect(Collectors.toList());
+
+        return categoriesWithId;
     }
 }

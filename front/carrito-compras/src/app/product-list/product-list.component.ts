@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Product } from '../product';
 import { ProductResponse } from '../product-response';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { CategoryResponse } from '../category-response';
+import { Category } from '../category';
 
 
 @Component({
@@ -26,13 +27,7 @@ export class ProductListComponent implements OnInit {
   };
   selectedCategory = ""
   lProducts: Product[] = [];
-  categories = [
-    { id: 1, name: 'Electronics' },
-    { id: 2, name: 'cat1' },
-    { id: 3, name: 'cat2' },
-    { id: 4, name: 'Clothing' },
-    { id: 5, name: 'Sports' }
-  ];
+  categories: Category[] = [];
 
   searchQuery = "";
 
@@ -69,9 +64,12 @@ export class ProductListComponent implements OnInit {
     if (index !== -1) {
       // this.lProducts[index] = this.editProductData;
       this.productService.updateProduct(this.editProductData).subscribe((data: ProductResponse) => {
+
         this.loadProducts();
       });
+
     }
+
     this.isEditVisible = false; // Oculta el popup
   }
 
@@ -88,6 +86,15 @@ export class ProductListComponent implements OnInit {
   loadProducts(): void {
     this.productService.getProducts(this.currentPage, this.pageSize).subscribe((data: ProductResponse) => {
       this.lProducts = data.data;
+      // Extrae el número que está antes del guion
+      const totalItems = parseInt(data.message.split('-')[0].trim());
+
+      // Calcula el número total de páginas
+      this.totalPages = Math.ceil(totalItems / 10);
+    });
+
+    this.productService.getCategories().subscribe((data: CategoryResponse) => {
+      this.categories = data.data;
     });
   }
 

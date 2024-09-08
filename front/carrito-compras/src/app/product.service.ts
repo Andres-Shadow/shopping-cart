@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductResponse } from './product-response';
+import { CategoryResponse } from './category-response';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class ProductService {
   getProducts(page: number, pageSize: number): Observable<ProductResponse> {
     let url = `${this.apiUrl}?page=${page}&pageSize=${pageSize}`;
     return this.http.get<ProductResponse>(url);
+  }
+
+  getCategories(): Observable<CategoryResponse> {
+    return this.http.get<CategoryResponse>(this.apiUrl + '/category');
   }
 
   addNewProduct(product: any): Observable<ProductResponse> {

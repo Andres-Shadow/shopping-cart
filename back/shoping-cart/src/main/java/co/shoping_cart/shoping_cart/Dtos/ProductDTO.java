@@ -1,5 +1,6 @@
 package co.shoping_cart.shoping_cart.Dtos;
 
+import co.shoping_cart.shoping_cart.Models.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -11,13 +12,13 @@ import lombok.Setter;
 public class ProductDTO {
     @NotBlank
     private String name;
-    
+
     @NotNull
     @Positive
     private float price;
-    
+
     @NotNull
-    private String category;
+    private Category category;
 
     @NotNull
     private int amount;

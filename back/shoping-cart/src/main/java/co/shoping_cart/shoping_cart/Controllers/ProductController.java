@@ -2,6 +2,7 @@ package co.shoping_cart.shoping_cart.Controllers;
 
 import co.shoping_cart.shoping_cart.Dtos.ProductDTO;
 import co.shoping_cart.shoping_cart.Models.ApiResponse;
+import co.shoping_cart.shoping_cart.Models.CategoryModel;
 import co.shoping_cart.shoping_cart.Models.Product;
 import co.shoping_cart.shoping_cart.ServicesImpl.ProductServiceImpl;
 import jakarta.validation.Valid;
@@ -41,7 +42,7 @@ public class ProductController {
         }
 
         List<Product> productos = productService.getAllProducts(page, pageSize);
-        return ResponseEntity.ok(new ApiResponse<>("Productos obtenidos exitosamente", productos, 200));
+        return ResponseEntity.ok(new ApiResponse<>(productos.size() + "- Records listed correctly", productos, 200));
     }
 
     // Crear un nuevo producto
@@ -86,6 +87,7 @@ public class ProductController {
         product.setId(id);
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
+        product.setAmount(productDTO.getAmount());
         product.setCategory(productDTO.getCategory());
 
         Boolean updated = productService.updadateProduct(product.getId(), product);
@@ -113,6 +115,12 @@ public class ProductController {
     public ResponseEntity<ApiResponse<List<Product>>> obtainProductByCategory(@PathVariable String category) {
         List<Product> products = productService.getProductsByCategory(category);
         return ResponseEntity.ok(new ApiResponse<>("Productos por categoría obtenidos exitosamente", products, 200));
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<ApiResponse<List<CategoryModel>>> getMethodName() {
+        List<CategoryModel> categories = productService.getAllCategories();
+        return ResponseEntity.ok(new ApiResponse<>("Categories listed", categories, 200));
     }
 
 }

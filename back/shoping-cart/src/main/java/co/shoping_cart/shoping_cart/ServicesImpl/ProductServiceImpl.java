@@ -1,6 +1,7 @@
 package co.shoping_cart.shoping_cart.ServicesImpl;
 
 import co.shoping_cart.shoping_cart.Logic.ProductManager;
+import co.shoping_cart.shoping_cart.Models.CategoryModel;
 import co.shoping_cart.shoping_cart.Models.Product;
 import co.shoping_cart.shoping_cart.Services.ProductService;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductByName(String name) {
         return ProductManager.getProductByName(name);
+    }
+
+    @Override
+    public List<CategoryModel> getAllCategories() {
+        return ProductManager.getCategories();
     }
 }

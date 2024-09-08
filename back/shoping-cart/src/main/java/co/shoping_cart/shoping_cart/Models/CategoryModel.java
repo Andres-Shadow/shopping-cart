@@ -9,10 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class CategoryModel {
     private int id;
-    private String name;
-    private double price;
-    private int amount;
-    private Category category;
+    private Category name;
+
 }
