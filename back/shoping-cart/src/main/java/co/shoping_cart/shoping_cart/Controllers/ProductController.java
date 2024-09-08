@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -67,10 +68,12 @@ public class ProductController {
     }
 
     @GetMapping("/filter/{name}")
-    public ResponseEntity<ApiResponse<Product>> obtainProductByName(@PathVariable String name) {
+    public ResponseEntity<ApiResponse<List<Product>>> obtainProductByName(@PathVariable String name) {
         Product product = productService.getProductByName(name);
+        List<Product> products = new ArrayList<>();
+        products.add(product);
         if (product != null) {
-            return ResponseEntity.ok(new ApiResponse<>("Producto encontrado", product, 200));
+            return ResponseEntity.ok(new ApiResponse<>("Producto encontrado", products, 200));
         } else {
             return ResponseEntity.status(404).body(new ApiResponse<>("Producto no encontrado", null, 404));
         }

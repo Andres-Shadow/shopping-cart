@@ -34,6 +34,15 @@
       </select>
     </div>
 
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="Buscar producto por nombre"
+        [(ngModel)]="searchQuery"
+      />
+      <button (click)="searchProductByName()">Buscar</button>
+    </div>
+
     <table class="product-table">
       <thead>
         <tr>

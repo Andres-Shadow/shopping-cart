@@ -34,6 +34,8 @@ export class ProductListComponent implements OnInit {
     { id: 5, name: 'Sports' }
   ];
 
+  searchQuery = "";
+
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
@@ -57,6 +59,16 @@ export class ProductListComponent implements OnInit {
   deleteProduct(id: number): void {
     this.productService.deleteProduct(id).subscribe((data: ProductResponse) => {
       this.loadProducts();
+    });
+  }
+
+  searchProductByName(): void {
+    if (this.searchQuery == "") {
+      this.loadProducts();
+      return
+    }
+    this.productService.obtainProductByName(this.searchQuery).subscribe((res: ProductResponse) => {
+      this.lProducts = res.data
     });
   }
 
