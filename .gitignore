@@ -1,0 +1,41 @@
+HELP.md
+back/shopping-cart/target/
+*.mvn/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### VS Code ###
+*.vscode/
+
+
+# Compiled output
+*/dist
+*/tmp
+*/out-tsc
+*/bazel-out
+
+# Node
+*node_modules
+npm-debug.log
+yarn-error.log
+
+
+# Miscellaneous
+*.angular
+*.sass-cache/
+*connect.lock
+*coverage
+*libpeerconnection.log
+*testem.log
+*typings
+
+# System files
+*.DS_Store
+*Thumbs.db

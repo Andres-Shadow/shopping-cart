@@ -1,0 +1,47 @@
+<div>
+  <div class="table-container">
+    <div class="form-container">
+      <input type="text" placeholder="Name" [(ngModel)]="newProduct.name" />
+      <input type="number" placeholder="Price" [(ngModel)]="newProduct.price" />
+      <input
+        type="number"
+        placeholder="Amount"
+        [(ngModel)]="newProduct.amount"
+      />
+      <input
+        type="text"
+        placeholder="Category"
+        [(ngModel)]="newProduct.category"
+      />
+      <button (click)="saveProduct()">Agregar</button>
+    </div>
+
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for( product of lProducts; track product.id){
+        <tr>
+          <td>{{ product.name }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.amount }}</td>
+          <td>{{ product.category }}</td>
+
+          <td>
+            <!-- Botones de actualizar y eliminar -->
+            <button (click)="deleteProduct(product.id)" class="delete-button">Delete</button>
+            <button class="update-button">Update</button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
