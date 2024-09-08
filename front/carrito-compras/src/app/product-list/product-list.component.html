@@ -16,6 +16,24 @@
       <button (click)="saveProduct()">Agregar</button>
     </div>
 
+    <div class="filter-container">
+      <label for="category">Filter by Category:</label>
+      <select
+        id="category"
+        [(ngModel)]="selectedCategory"
+        (change)="filterByCategory()"
+      >
+        <!-- <option value="">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </option> -->
+        <option value="">All Categories</option>
+        @for (category of categories; track category.id) {
+        <option value="{{ category.name }}">{{ category.name }}</option>
+        }
+      </select>
+    </div>
+
     <table class="product-table">
       <thead>
         <tr>
@@ -36,7 +54,9 @@
 
           <td>
             <!-- Botones de actualizar y eliminar -->
-            <button (click)="deleteProduct(product.id)" class="delete-button">Delete</button>
+            <button (click)="deleteProduct(product.id)" class="delete-button">
+              Delete
+            </button>
             <button class="update-button">Update</button>
           </td>
         </tr>

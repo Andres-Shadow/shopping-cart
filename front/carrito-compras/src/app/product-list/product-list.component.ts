@@ -24,8 +24,15 @@ export class ProductListComponent implements OnInit {
     amount: null,
     category: ''
   };
-
+  selectedCategory = ""
   lProducts: Product[] = [];
+  categories = [
+    { id: 1, name: 'Electronics' },
+    { id: 2, name: 'cat1' },
+    { id: 3, name: 'cat2' },
+    { id: 4, name: 'Clothing' },
+    { id: 5, name: 'Sports' }
+  ];
 
   constructor(private productService: ProductService) { }
 
@@ -53,5 +60,16 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-
+  filterByCategory(): void {
+    // this.productService.getProductsByCategory(category).subscribe((data: ProductResponse) => {
+    //   this.lProducts = data.data;
+    // });
+    if (this.selectedCategory == "") {
+      this.loadProducts();
+    } else {
+      this.productService.obtainProductsByCategory(this.selectedCategory).subscribe((data: ProductResponse) => {
+        this.lProducts = data.data;
+      });
+    }
+  }
 }
