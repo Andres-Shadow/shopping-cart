@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/products")
@@ -63,6 +64,34 @@ public class ProductController {
         } else {
             return ResponseEntity.status(404).body(new ApiResponse<>("Producto no encontrado", null, 404));
         }
+    }
+
+    @GetMapping("/filter/{name}")
+    public ResponseEntity<ApiResponse<Product>> obtainProductByName(@PathVariable String name) {
+        Product product = productService.getProductByName(name);
+        if (product != null) {
+            return ResponseEntity.ok(new ApiResponse<>("Producto encontrado", product, 200));
+        } else {
+            return ResponseEntity.status(404).body(new ApiResponse<>("Producto no encontrado", null, 404));
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> updateProduct(@PathVariable int id,
+            @RequestBody ProductDTO productDTO) {
+        Product product = new Product();
+        product.setId(id);
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setCategory(productDTO.getCategory());
+
+        Boolean updated = productService.updadateProduct(product.getId(), product);
+        if (updated) {
+            return ResponseEntity.ok(new ApiResponse<>("Producto actualizado exitosamente", null, 200));
+        } else {
+            return ResponseEntity.status(404).body(new ApiResponse<>("Producto no encontrado", null, 404));
+        }
+
     }
 
     // Eliminar producto por ID

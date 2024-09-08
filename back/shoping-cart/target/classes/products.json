@@ -1,9 +1,9 @@
 [ {
   "id" : 2,
-  "name" : "Producto2",
+  "name" : "Producto 12",
   "price" : 200.0,
-  "amount" : 5,
-  "category" : "cat1"
+  "amount" : 0,
+  "category" : "cat2"
 }, {
   "id" : 3,
   "name" : "producto 3",
@@ -34,4 +34,10 @@
   "price" : 200.0,
   "amount" : 5,
   "category" : "cat2"
+}, {
+  "id" : 9,
+  "name" : "bbb",
+  "price" : 2.0,
+  "amount" : 0,
+  "category" : "bb"
 } ]

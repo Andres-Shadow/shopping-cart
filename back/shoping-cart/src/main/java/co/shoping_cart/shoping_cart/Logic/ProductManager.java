@@ -51,14 +51,15 @@ public class ProductManager {
                 List<Product> productos = mapper.readValue(file,
                         mapper.getTypeFactory().constructCollectionType(ArrayList.class, Product.class));
 
-                // int fromIndex = Math.max((page - 1) * pageSize, 0);
-                // int toIndex = Math.min(fromIndex + pageSize, productos.size());
+                int fromIndex = (page - 1) * pageSize;
+                int toIndex = Math.min(fromIndex + pageSize, productos.size());
 
-                if (productos.size() < pageSize) {
-                    return productos;
+                // Validar que el índice inicial no sea mayor al tamaño de la lista
+                if (fromIndex > productos.size()) {
+                    return new ArrayList<>();
                 }
 
-                return productos.subList(page, pageSize);
+                return productos.subList(fromIndex, toIndex);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,6 +75,13 @@ public class ProductManager {
     public static Product getProductById(int id) {
         return getProductsFromJson().stream()
                 .filter(producto -> producto.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static Product getProductByName(String name) {
+        return getProductsFromJson().stream()
+                .filter(producto -> producto.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElse(null);
     }
@@ -100,5 +108,28 @@ public class ProductManager {
             }
         }
         return false;
+    }
+
+    public static Boolean updateProduct(int productId, Product product) {
+        List<Product> productos = getProductsFromJson();
+        int index = productos.indexOf(productos.stream()
+                .filter(p -> p.getId() == productId)
+                .findFirst()
+                .orElse(null));
+
+        if (index != -1) {
+            productos.set(index, product);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            try {
+                mapper.writeValue(new File(JSON_FILE_PATH), productos);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("Error al actualizar el producto del archivo JSON: " + e.getMessage());
+            }
+        }
+        return false;
+
     }
 }

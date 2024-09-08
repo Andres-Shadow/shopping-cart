@@ -1,5 +1,5 @@
 HELP.md
-back/shopping-cart/target/
+*/target
 *.mvn/
 
 ### STS ###

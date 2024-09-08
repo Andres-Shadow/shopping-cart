@@ -12,7 +12,11 @@ public interface ProductService {
 
     public Product getProductById(int productId);
 
+    public Product getProductByName(String name);
+
     public List<Product> getAllProducts(int page, int pageSize);
 
     public List<Product> getProductsByCategory(String category);
+
+    public Boolean updadateProduct(int productId, Product product);
 }

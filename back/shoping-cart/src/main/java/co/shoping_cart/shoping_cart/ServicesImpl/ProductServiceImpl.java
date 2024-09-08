@@ -10,8 +10,8 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    //Función que recibe un objeto producto
-    //y lo agrega a la lista json que se encuentra en el archivo products.json
+    // Función que recibe un objeto producto
+    // y lo agrega a la lista json que se encuentra en el archivo products.json
     // en el caso de que el proceso sea exitoso retorna true
     // caso contrario retorna false
     @Override
@@ -37,5 +37,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProductsByCategory(String category) {
         return ProductManager.getProductsByCategory(category);
+    }
+
+    @Override
+    public Boolean updadateProduct(int productId, Product product) {
+        return ProductManager.updateProduct(productId, product);
+    }
+
+    @Override
+    public Product getProductByName(String name) {
+        return ProductManager.getProductByName(name);
     }
 }
