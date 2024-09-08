@@ -54,7 +54,9 @@ public class ProductController {
         }
 
         List<Product> productos = productService.getAllProducts(page, pageSize);
-        return ResponseEntity.ok(new ApiResponse<>(productos.size() + "- Records listed correctly", productos, 200));
+        int productsOriginalAmount = productService.getAllProducts();
+        return ResponseEntity
+                .ok(new ApiResponse<>(productsOriginalAmount + "- Records listed correctly", productos, 200));
     }
 
     // Method that creates a new product

@@ -34,4 +34,46 @@
   "price" : 200.0,
   "amount" : 0,
   "category" : "ELECTRONICS"
+}, {
+  "id" : 9,
+  "name" : "Producto 13",
+  "price" : 200.0,
+  "amount" : 0,
+  "category" : "ELECTRONICS"
+}, {
+  "id" : 10,
+  "name" : "Producto 14",
+  "price" : 200.0,
+  "amount" : 0,
+  "category" : "ELECTRONICS"
+}, {
+  "id" : 11,
+  "name" : "Producto 15",
+  "price" : 200.0,
+  "amount" : 0,
+  "category" : "ELECTRONICS"
+}, {
+  "id" : 12,
+  "name" : "Producto 16",
+  "price" : 200.0,
+  "amount" : 0,
+  "category" : "ELECTRONICS"
+}, {
+  "id" : 13,
+  "name" : "Producto 17",
+  "price" : 200.0,
+  "amount" : 0,
+  "category" : "ELECTRONICS"
+}, {
+  "id" : 14,
+  "name" : "Producto 19",
+  "price" : 200.0,
+  "amount" : 0,
+  "category" : "ELECTRONICS"
+}, {
+  "id" : 15,
+  "name" : "Producto 20",
+  "price" : 200.0,
+  "amount" : 0,
+  "category" : "ELECTRONICS"
 } ]

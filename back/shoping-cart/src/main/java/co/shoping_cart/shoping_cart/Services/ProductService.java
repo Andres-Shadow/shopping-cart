@@ -24,6 +24,9 @@ public interface ProductService {
     // method for getting all products
     public List<Product> getAllProducts(int page, int pageSize);
 
+    // method for getting all products without pagination
+    public int getAllProducts();
+
     // method for getting products by category
     public List<Product> getProductsByCategory(String category);
 

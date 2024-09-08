@@ -94,4 +94,9 @@ public class ProductServiceImpl implements ProductService {
     public List<CategoryModel> getAllCategories() {
         return ProductManager.getCategories();
     }
+
+    @Override
+    public int getAllProducts() {
+        return ProductManager.getProductsFromJson().size();
+    }
 }
