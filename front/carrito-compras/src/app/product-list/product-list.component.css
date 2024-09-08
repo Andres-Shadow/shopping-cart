@@ -20,7 +20,8 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-container input {
+.form-container input,
+.form-container select {
   padding: 10px;
   margin-right: 10px;
   border: 1px solid #ccc;
@@ -43,7 +44,6 @@
   background-color: #218838;
 }
 
-/* Contenedor de búsqueda y filtro */
 .search-filter-container {
   display: flex;
   justify-content: space-between;
@@ -92,7 +92,6 @@
   font-size: 1em;
 }
 
-/* Tabla de productos */
 .product-table {
   width: 80%;
   border-collapse: collapse;
@@ -128,7 +127,6 @@
   background-color: #ddd;
 }
 
-/* Estilos para los botones de acciones en la tabla */
 .delete-button,
 .update-button {
   margin-right: 10px;
@@ -157,7 +155,6 @@
   background-color: #43a047;
 }
 
-/* Paginación */
 .pagination-container {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
@@ -183,7 +180,8 @@
 .pagination-container span {
   font-size: 1.2em;
 }
-/* Pop-up centrado */
+
+
 .update-popup {
   position: fixed;
   top: 50%;
@@ -198,7 +196,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Alinear inputs en una fila */
+
 .form-container-update {
   display: flex;
   flex-direction: column;
@@ -208,10 +206,11 @@
 .input-group {
   display: flex;
   justify-content: space-between;
-  gap: 20px; /* Espacio entre los inputs */
+  gap: 20px; 
 }
 
-.input-group input {
+.input-group input,
+.input-group select {
   width: 48%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -219,7 +218,7 @@
   font-size: 1em;
 }
 
-/* Estilo de los botones */
+
 .button-group {
   display: flex;
   justify-content: flex-start;

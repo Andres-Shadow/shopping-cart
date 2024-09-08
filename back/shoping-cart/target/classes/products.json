@@ -3,7 +3,7 @@
   "name" : "Producto a",
   "price" : 250.0,
   "amount" : 6,
-  "category" : "FOOD"
+  "category" : "CLOTHING"
 }, {
   "id" : 3,
   "name" : "producto 3",

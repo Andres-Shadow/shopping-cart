@@ -1,18 +1,20 @@
 <div class="table-container">
-  <!-- Formulario para agregar productos -->
+  <!-- products creting form -->
   <div class="form-container">
     <input type="text" placeholder="Name" [(ngModel)]="newProduct.name" />
     <input type="number" placeholder="Price" [(ngModel)]="newProduct.price" />
     <input type="number" placeholder="Amount" [(ngModel)]="newProduct.amount" />
-    <input
-      type="text"
-      placeholder="Category"
-      [(ngModel)]="newProduct.category"
-    />
+
+    <select [(ngModel)]="newProduct.category">
+      <option value="" disabled selected>Category</option>
+      @for (category of categories; track category.id) {
+      <option [value]="category">{{ category.name }}</option>
+      }
+    </select>
     <button (click)="saveProduct()">Agregar</button>
   </div>
 
-  <!-- Contenedor de búsqueda y filtro -->
+  <!-- filter and seach container -->
   <div class="search-filter-container">
     <div class="search-container">
       <input
@@ -38,7 +40,7 @@
     </div>
   </div>
 
-  <!-- Tabla de productos -->
+  <!-- products table -->
   <table class="product-table">
     <thead>
       <tr>
@@ -50,7 +52,7 @@
       </tr>
     </thead>
     <tbody>
-      @for( product of lProducts; track product.id){
+      @for( product of productList; track product.id){
       <tr>
         <td>{{ product.name }}</td>
         <td>{{ product.price }}</td>
@@ -58,7 +60,7 @@
         <td>{{ product.category }}</td>
 
         <td>
-          <!-- Botones de actualizar y eliminar -->
+          <!-- delete and update buttons -->
           <button (click)="deleteProduct(product.id)" class="delete-button">
             Delete
           </button>
@@ -71,7 +73,7 @@
     </tbody>
   </table>
 
-  <!-- Paginación -->
+  <!-- pagination -->
   <div class="pagination-container">
     <button (click)="previousPage()" [disabled]="currentPage === 1">
       Previous
@@ -82,8 +84,8 @@
     </button>
   </div>
 
-  <!-- Ventana emergente de actualización -->
-  @if (isEditVisible) {
+  <!-- pop-up for updating -->
+  @if (isModalEditVisible) {
   <div class="update-popup">
     <h3>Actualizar Producto</h3>
     <div class="form-container-update">
@@ -105,11 +107,13 @@
           placeholder="Amount"
           [(ngModel)]="editProductData.amount"
         />
-        <input
-          type="text"
-          placeholder="Category"
-          [(ngModel)]="editProductData.category"
-        />
+        <select [(ngModel)]="editProductData.category">
+          <option disabled value="">Seleccionar categoría</option>
+          <!-- default value -->
+          @for (category of categories; track category.id) {
+          <option [ngValue]="category.name">{{ category.name }}</option>
+          }
+        </select>
       </div>
       <div class="button-group">
         <button (click)="updateProduct()" class="save-button">
