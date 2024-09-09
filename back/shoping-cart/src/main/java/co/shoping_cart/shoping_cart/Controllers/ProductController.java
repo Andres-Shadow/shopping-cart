@@ -54,7 +54,7 @@ public class ProductController {
         }
 
         List<Product> productos = productService.getAllProducts(page, pageSize);
-        int productsOriginalAmount = productService.getAllProducts();
+        int productsOriginalAmount = productService.getAllProductsSize();
         return ResponseEntity
                 .ok(new ApiResponse<>(productsOriginalAmount + "- Records listed correctly", productos, 200));
     }
@@ -124,7 +124,7 @@ public class ProductController {
         product.setAmount(productDTO.getAmount());
         product.setCategory(productDTO.getCategory());
 
-        Boolean updated = productService.updadateProduct(product.getId(), product);
+        Boolean updated = productService.updateProduct(product.getId(), product);
         if (updated) {
             return ResponseEntity.ok(new ApiResponse<>("Producto actualizado exitosamente", null, 200));
         } else {

@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
     // Returns:
     // Boolean-> true if the product was updated successfully, false otherwise
     @Override
-    public Boolean updadateProduct(int productId, Product product) {
+    public Boolean updateProduct(int productId, Product product) {
         return ProductManager.updateProduct(productId, product);
     }
 
@@ -96,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int getAllProducts() {
+    public int getAllProductsSize() {
         return ProductManager.getProductsFromJson().size();
     }
 }

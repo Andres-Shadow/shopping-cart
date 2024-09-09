@@ -25,7 +25,7 @@ public interface ProductService {
     public List<Product> getAllProducts(int page, int pageSize);
 
     // method for getting all products without pagination
-    public int getAllProducts();
+    public int getAllProductsSize();
 
     // method for getting products by category
     public List<Product> getProductsByCategory(String category);
@@ -34,5 +34,5 @@ public interface ProductService {
     public List<CategoryModel> getAllCategories();
 
     // method for updating a product
-    public Boolean updadateProduct(int productId, Product product);
+    public Boolean updateProduct(int productId, Product product);
 }
