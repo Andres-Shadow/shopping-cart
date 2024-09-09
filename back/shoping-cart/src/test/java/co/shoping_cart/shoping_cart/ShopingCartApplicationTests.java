@@ -18,6 +18,9 @@ class ShopingCartApplicationTests {
 	@Autowired
 	private ProductServiceImpl productService;
 
+	// Test for verifying the creation of a new product
+	// The test creates a new product and verifies that it was created successfully
+	// In case it was created successfully, assertNotNull will return true
 	@Test
 	void createNewProductTest() {
 		// Arrange
@@ -32,6 +35,9 @@ class ShopingCartApplicationTests {
 		assertNotNull(result);
 	}
 
+	// Test for verifying the update of a product
+	// The test updates a non existing product so
+	// In case it wasnt updated successfully, assertFalse will return true
 	@Test
 	void updateProductTest() {
 		// Arrange
@@ -47,6 +53,9 @@ class ShopingCartApplicationTests {
 		assertFalse(result);
 	}
 
+	// Test for verifying the deletion of a product
+	// The test deletes a non existing product so
+	// In case it wasnt deleted successfully, assertFalse will return true
 	@Test
 	void deleteProductTest() {
 		// Arrange
@@ -57,6 +66,9 @@ class ShopingCartApplicationTests {
 		assertFalse(result);
 	}
 
+	// Test for verifying the retrieval of a product by id
+	// The test retrieves a non existing product so
+	// In case it wasnt retrieved successfully, assertNull will return true
 	@Test
 	void getProductByIdTest() {
 		// Arrange
@@ -67,7 +79,9 @@ class ShopingCartApplicationTests {
 		assertNull(result);
 	}
 
-	// Constructor
+	// Test for verifying the retrieval of all products
+	// The test retrieves all products so
+	// In case it was retrieved successfully, assertNotNull will return true
 	@Test
 	void getAllProductsTest() {
 		// Arrange
@@ -79,6 +93,9 @@ class ShopingCartApplicationTests {
 		assertNotNull(result);
 	}
 
+	// Test for verifying the retrieval of all products by category
+	// The test retrieves all products by category so
+	// In case it was retrieved successfully, assertNotNull will return true
 	@Test
 	void getAllProductsByCategoryTest() {
 		// Act
@@ -87,6 +104,9 @@ class ShopingCartApplicationTests {
 		assertNotNull(result);
 	}
 
+	// Test for verifying the retrieval of a product by name
+	// The test retrieves a non existing product so
+	// In case it wasnt retrieved successfully, assertNull will return true
 	@Test
 	void getProductsByName() {
 		// Act
@@ -95,6 +115,9 @@ class ShopingCartApplicationTests {
 		assertNull(result);
 	}
 
+	// Test for verifying the retrieval of all categories
+	// The test retrieves all categories so
+	// In case it was retrieved successfully, assertNotNull will return true
 	@Test
 	void getAllCategoriesTest() {
 		// Act
