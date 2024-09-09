@@ -76,4 +76,10 @@
   "price" : 200.0,
   "amount" : 0,
   "category" : "ELECTRONICS"
+}, {
+  "id" : 16,
+  "name" : "Producto 12",
+  "price" : 200.0,
+  "amount" : 0,
+  "category" : "ELECTRONICS"
 } ]

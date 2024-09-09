@@ -48,15 +48,15 @@ public class ProductController {
             @RequestParam(defaultValue = "10") int pageSize) {
 
         if (page < 0 || pageSize < 0) {
-            System.out.println("Error: page y pageSize deben ser mayores a 0.");
+            System.out.println("Error: page and pageSize must be greater than 0.");
             return ResponseEntity.badRequest()
-                    .body(new ApiResponse<>("Error: page y pageSize deben ser mayores a 0.", null, 400));
+                    .body(new ApiResponse<>("Error: page and pageSize must be greater than 0.", null, 400));
         }
 
-        List<Product> productos = productService.getAllProducts(page, pageSize);
+        List<Product> products = productService.getAllProducts(page, pageSize);
         int productsOriginalAmount = productService.getAllProductsSize();
         return ResponseEntity
-                .ok(new ApiResponse<>(productsOriginalAmount + "- Records listed correctly", productos, 200));
+                .ok(new ApiResponse<>(productsOriginalAmount + "- Records listed correctly", products, 200));
     }
 
     // Method that creates a new product
@@ -66,13 +66,32 @@ public class ProductController {
     // ResponseEntity<ApiResponse<String>>-> a response entity with a message
     @PostMapping
     public ResponseEntity<ApiResponse<String>> createProduct(@Valid @RequestBody ProductDTO productDTO) {
-        Product product = new Product();
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
-        product.setCategory(productDTO.getCategory());
+        try {
+            // Validar campos obligatorios
+            if (productDTO.getName() == null || productDTO.getPrice() < 0 ||
+                    productDTO.getCategory() == null || productDTO.getAmount() < 0) {
 
-        String result = productService.createNewProduct(product);
-        return ResponseEntity.ok(new ApiResponse<>(result, null, 200));
+                return ResponseEntity.status(400)
+                        .body(new ApiResponse<>(
+                                "Error: All fields (Name, Price, Category, Amount) are required and must be valid",
+                                null, 400));
+            }
+
+            // Crear nuevo producto
+            Product product = new Product();
+            product.setName(productDTO.getName());
+            product.setPrice(productDTO.getPrice());
+            product.setCategory(productDTO.getCategory());
+            product.setAmount(productDTO.getAmount());
+
+            // Llamada al servicio para guardar el producto
+            String result = productService.createNewProduct(product);
+            return ResponseEntity.ok(new ApiResponse<>(result, null, 200));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new ApiResponse<>("Error while creating the product: " + e.getMessage(), null, 500));
+        }
     }
 
     // Method that gets a product by its id
@@ -84,9 +103,9 @@ public class ProductController {
     public ResponseEntity<ApiResponse<Product>> obtainProductById(@PathVariable int id) {
         Product product = productService.getProductById(id);
         if (product != null) {
-            return ResponseEntity.ok(new ApiResponse<>("Producto encontrado", product, 200));
+            return ResponseEntity.ok(new ApiResponse<>("Product founded", product, 200));
         } else {
-            return ResponseEntity.status(404).body(new ApiResponse<>("Producto no encontrado", null, 404));
+            return ResponseEntity.status(404).body(new ApiResponse<>("Product not founded", null, 404));
         }
     }
 
@@ -102,9 +121,9 @@ public class ProductController {
         List<Product> products = new ArrayList<>();
         products.add(product);
         if (product != null) {
-            return ResponseEntity.ok(new ApiResponse<>("Producto encontrado", products, 200));
+            return ResponseEntity.ok(new ApiResponse<>("Product founded", products, 200));
         } else {
-            return ResponseEntity.status(404).body(new ApiResponse<>("Producto no encontrado", null, 404));
+            return ResponseEntity.status(404).body(new ApiResponse<>("Product not founded", null, 404));
         }
     }
 
@@ -117,20 +136,37 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> updateProduct(@PathVariable int id,
             @RequestBody ProductDTO productDTO) {
-        Product product = new Product();
-        product.setId(id);
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
-        product.setAmount(productDTO.getAmount());
-        product.setCategory(productDTO.getCategory());
+        try {
+            // Validate obligatory fields
+            if (productDTO.getName() == null || productDTO.getPrice() < 0 ||
+                    productDTO.getCategory() == null || productDTO.getAmount() < 0) {
 
-        Boolean updated = productService.updateProduct(product.getId(), product);
-        if (updated) {
-            return ResponseEntity.ok(new ApiResponse<>("Producto actualizado exitosamente", null, 200));
-        } else {
-            return ResponseEntity.status(404).body(new ApiResponse<>("Producto no encontrado", null, 404));
+                return ResponseEntity.status(400)
+                        .body(new ApiResponse<>(
+                                "Error: All fields (Name, Price, Category, Amount) are required and must be valid",
+                                null, 400));
+            }
+
+            // Create the new product with the arrived data
+            Product product = new Product();
+            product.setId(id);
+            product.setName(productDTO.getName());
+            product.setPrice(productDTO.getPrice());
+            product.setAmount(productDTO.getAmount());
+            product.setCategory(productDTO.getCategory());
+
+            // Try to update the product
+            Boolean updated = productService.updateProduct(product.getId(), product);
+            if (updated) {
+                return ResponseEntity.ok(new ApiResponse<>("Product updated sucsessfully", null, 200));
+            } else {
+                return ResponseEntity.status(404).body(new ApiResponse<>("Product not found", null, 404));
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new ApiResponse<>("Error updating the product: " + e.getMessage(), null, 500));
         }
-
     }
 
     // Method that deletes a product
@@ -142,9 +178,9 @@ public class ProductController {
     public ResponseEntity<ApiResponse<Boolean>> deleteProduct(@PathVariable int id) {
         Boolean deleted = productService.deleteProduct(id);
         if (deleted) {
-            return ResponseEntity.ok(new ApiResponse<>("Producto eliminado exitosamente", true, 200));
+            return ResponseEntity.ok(new ApiResponse<>("Product deleted sucessfully", true, 200));
         } else {
-            return ResponseEntity.status(404).body(new ApiResponse<>("Producto no encontrado", false, 404));
+            return ResponseEntity.status(404).body(new ApiResponse<>("Product not founded", false, 404));
         }
     }
 
@@ -157,7 +193,7 @@ public class ProductController {
     @GetMapping("/category/{category}")
     public ResponseEntity<ApiResponse<List<Product>>> obtainProductByCategory(@PathVariable String category) {
         List<Product> products = productService.getProductsByCategory(category);
-        return ResponseEntity.ok(new ApiResponse<>("Productos por categoría obtenidos exitosamente", products, 200));
+        return ResponseEntity.ok(new ApiResponse<>("Products listed by its category sucessfully", products, 200));
     }
 
     // Method that gets all the categories
